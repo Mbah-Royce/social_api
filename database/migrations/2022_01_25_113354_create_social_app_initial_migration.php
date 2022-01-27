@@ -51,7 +51,7 @@ class CreateSocialAppInitialMigration extends Migration
             $table->string('last_name')->nullable();
             $table->string('email')->nullable();
             $table->string('password');
-            $table->sting('phone')->nullable();
+            $table->string('phone')->nullable();
             $table->date('dob');
             $table->enum('gender',['male','female','other']);
             $table->string('profile_picture')->nullable();
@@ -94,12 +94,12 @@ class CreateSocialAppInitialMigration extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('school_id');
-            $table->string('class_room_id');
+            $table->unsignedBigInteger('class_room_id');
             $table->string('level');
             $table->string('field')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('school_id')->references('id')->on('schools');
-            $table->foreign('class_room_id')->references('id')->on('class_room');
+            $table->foreign('class_room_id')->references('id')->on('class_rooms');
             $table->string('current_address')->nullable();
             $table->timestamps();
         });
@@ -130,7 +130,6 @@ class CreateSocialAppInitialMigration extends Migration
             $table->unsignedBigInteger('school_id');
             $table->unsignedBigInteger('course_id');
             $table->string('qualificaton');
-            $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('school_id')->references('id')->on('schools');
             $table->foreign('course_id')->references('id')->on('courses');
             $table->primary(['teacher_id','course_id']);
