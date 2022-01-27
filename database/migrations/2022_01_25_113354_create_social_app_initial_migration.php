@@ -106,17 +106,6 @@ class CreateSocialAppInitialMigration extends Migration
             $table->timestamps();
         });
 
-        Schema::create('school_student', function (Blueprint $table){
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('school_id');
-
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('school_id')->references('id')->on('schools');
-
-            $table->primary(['user_id','school_id']);
-            $table->timestamps();
-        });
-
         Schema::create('teacher', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
