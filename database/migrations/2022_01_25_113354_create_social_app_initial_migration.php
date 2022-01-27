@@ -101,6 +101,8 @@ class CreateSocialAppInitialMigration extends Migration
             $table->foreign('school_id')->references('id')->on('schools');
             $table->foreign('class_room_id')->references('id')->on('class_rooms');
             $table->string('current_address')->nullable();
+            $table->enum('account_status',['active','suspended','blocked','disactivated','inactive'])->default('inactive');
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
 
@@ -122,6 +124,8 @@ class CreateSocialAppInitialMigration extends Migration
             $table->string('qualificaton');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('school_id')->references('id')->on('schools');
+            $table->enum('account_status',['active','suspended','blocked','disactivated','inactive'])->default('inactive');
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
 
