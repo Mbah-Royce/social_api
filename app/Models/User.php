@@ -21,6 +21,18 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'first_name',
+        'last_name',
+        'email',
+        'password',
+        'phone',
+        'dob',
+        'gender',
+        'profile_picture',
+        'cover_picture',
+        'pwd_changed',
+        'account_status',
+        'status'
     ];
 
     /**
@@ -41,4 +53,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get all of the studentAccounts for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function studentAccounts()
+    {
+        return $this->hasMany(Student::class);
+    }
 }
