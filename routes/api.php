@@ -13,7 +13,11 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+/** Auth Routes */
 
+Route::group(['prefix' => 'user'], function(){
+    Route::POST('login', [App\Http\Controllers\Auth\LoginController::class,'login']);
+});
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -29,6 +33,15 @@ Route::group(['prefix' => 'school-admin', 'middleware' => ['auth:sanctum']], fun
     Route::PATCH('class-room/{id}',[App\Http\Controllers\Admin\ClassRoomController::class,'update']);
 
     /** Student CRUD routes*/
+    Route::POST('student-seed/{id}',[App\Http\Controllers\Admin\StudentController::class,'create']);
+});
+    /** MISCEO administrator Routes */
+Route::group(['prefix' => 'misceo-admin', 'middleware' => ['auth:sanctum']], function () {
+    
+    Route::POST('school',[App\Http\Controllers\SuperAdmin\SchoolController::class,'create']);
+    Route::GET('school',[App\Http\Controllers\SuperAdmin\SchoolController::class,'index']);
+    Route::POST('student-seed/{id}',[App\Http\Controllers\SuperAdmin\StudentController::class,'create']);
+    
 
 });
 

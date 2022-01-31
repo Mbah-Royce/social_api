@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -19,7 +20,6 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
         'password',
         'first_name',
         'last_name',
@@ -62,5 +62,23 @@ class User extends Authenticatable
     public function studentAccounts()
     {
         return $this->hasMany(Student::class);
+    }
+
+    /**
+     * Hash user's password upon creation
+     */
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] =  Hash::make($value);
+    }
+
+    /**
+     * The school which the user administers
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function school()
+    {
+        return $this->belongsToMany(Role::class, 'school_admin', 'user_id', 'school_id');
     }
 }

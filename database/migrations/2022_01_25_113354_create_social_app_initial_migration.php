@@ -15,17 +15,17 @@ class CreateSocialAppInitialMigration extends Migration
     {
         Schema::create('schools', function (Blueprint $table){
             $table->id();
-            $table->string('name');
-            $table->string('email');
-            $table->string('phone1');
-            $table->string('phone2');
+            $table->string('name')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone1')->nullable();
+            $table->string('phone2')->nullable();
             $table->decimal('lat',35,30)->nullable();
             $table->decimal('lng',35,30)->nullable();
-            $table->string('logo');
-            $table->string('password');
+            $table->string('logo')->nullable();
+            $table->string('password')->nullable();
             $table->string('cover_picture')->nullable();
             $table->enum('account_status',['active','suspended','blocked','disactivated','inactive'])->default('inactive');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
 
@@ -52,7 +52,7 @@ class CreateSocialAppInitialMigration extends Migration
             $table->string('email')->nullable();
             $table->string('password');
             $table->string('phone')->nullable();
-            $table->date('dob');
+            $table->date('dob')->nullable();
             $table->enum('gender',['male','female','other']);
             $table->string('profile_picture')->nullable();
             $table->string('cover_picture')->nullable();
@@ -95,7 +95,7 @@ class CreateSocialAppInitialMigration extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('school_id');
             $table->unsignedBigInteger('class_room_id');
-            $table->string('level');
+            $table->string('level')->nullable();
             $table->string('field')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('school_id')->references('id')->on('schools');
@@ -128,6 +128,29 @@ class CreateSocialAppInitialMigration extends Migration
             $table->primary(['teacher_id','course_id']);
             $table->timestamps();
         });
+
+        Schema::create('school_studseederfiles', function (Blueprint $table){
+            $table->id();
+            $table->string('path');
+            $table->unsignedBigInteger('school_id');
+            $table->unsignedBigInteger('class_room_id');
+            $table->foreign('class_room_id')->references('id')->on('class_rooms');
+            $table->foreign('school_id')->references('id')->on('schools');
+            $table->timestamps();
+        });
+
+        
+        Schema::create('school_admin', function (Blueprint $table){
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('school_id');
+    
+            $table->foreign('school_id')->references('id')->on('schools');
+            $table->foreign('user_id')->references('id')->on('users');
+
+            $table->timestamps();
+        });
+        
     }
 
     /**
@@ -146,5 +169,7 @@ class CreateSocialAppInitialMigration extends Migration
         Schema::dropIfExists('class_rooms');
         Schema::dropIfExists('school_student');
         Schema::dropIfExists('course_teacher');
+        Schema::dropIfExists('school_studseederfiles');
+        Schema::dropIfExists('school_admin');
     }
 }
