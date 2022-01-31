@@ -47,23 +47,21 @@ class StudentController extends Controller
                                 'level' => '2',
                                 'field' => 'SE',
                             ]);
-                            $content = [
-                                'passowrd' => $randomString
-                            ];
-                            // emailNotification($record['email'], '', 'Account Creation', $content);
+                            $content =  $randomString;
+                            emailNotification($record['email'], 'emails.student.studentPassword', 'Account Creation', $content);
                         } else {
                             $unsuccessfulStudents[$key] = [
                                 'email' => $record['email'],
                                 'last_name' => $record['last_name'],
                                 'first_name' => $record['first_name'],
                                 'gender' => $record['gender'],
-                                'field' => $record['field'],
+                                'field' => 'SE',
                             ];
                         }
                     }
                     if ($unsuccessfulStudents) {
                         $data = $unsuccessfulStudents;
-                        // emailNotification($shcool->email, '', 'Account Creation', $unsuccessfulStudents);
+                        emailNotification($school->email, 'emails.student.creationError', 'Account Creation', $unsuccessfulStudents);
                     }
                 } else{
                     $message = __("response_message.File_Not_Found");

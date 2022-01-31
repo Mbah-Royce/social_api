@@ -9,17 +9,23 @@ use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
+    /**
+     * 
+     *Login user
+     * 
+     * @param $request
+     * @return array|json
+     */
     public function Login(Request $request){
         $request->validate([
             'password' => 'string',
             'email' => 'string|email'
         ]);
-        // dd($request->all());
        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
         $user = User::where('email', $request->email)->first();
         Auth::login($user);
         $token = $user->createToken('auth_token')->plainTextToken;
-        $message = 'User created successfully';
+        $message = 'User login successfully';
         $statusCode = 200;
         $data = [
             'user'=> $user,
