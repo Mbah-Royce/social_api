@@ -41,5 +41,25 @@ class School extends Model
     {
         return $this->hasMany(ClassRoom::class);
     }
+
+    /**
+     * Get all of the studSeederFiles for the School
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function studSeederFile()
+    {
+        return $this->hasMany(SchoolSeederFile::class);
+    }
+
+    /**
+     * The admins of the school
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function user()
+    {
+        return $this->belongsToMany(User::class, 'school_admin', 'school_id', 'user_id');
+    }
     
 }

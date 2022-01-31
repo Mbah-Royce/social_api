@@ -1,5 +1,8 @@
 <?php
 
+use App\Mail\AppMail;
+use Illuminate\Contracts\Cache\Store;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -25,7 +28,7 @@ function httpResponse($data, $message = '', $statusCode = 200)
  * @param $file
  * @return string
  */
-function imageUpload($path, $file)
+function fileUpload($path, $file)
 {
     if (!Storage::exists($path)) {
         Storage::makeDirectory($path);
@@ -45,4 +48,59 @@ function getMediaUrl($path)
     return env('APP_URL') . $path;
 }
 
+/**
+ * Method to send email
+ * 
+ * @param $reciever
+ * @param $template
+ * @param $subject
+ * @param $data
+ * @return string
+ */
+function emailNotification($reciever,$template,$subject,$data)
+{
+    Mail::to($reciever)->send(new AppMail($template,$subject,$data));
+    return (Mail::failures());
+}
+
+/**
+ * Method to extract info from CSV file
+ * 
+ * @param $filename
+ * @param $delimiter
+ * @return array
+ */
+function importCSV($filename, $delimiter = ','){
+    if(!file_exists(public_path($filename)) || !is_readable(public_path($filename)))
+    return false;
+    $header = null;
+    $data = array();
+    if (($handle = fopen(public_path($filename), 'r')) !== false){
+      while (($row = fgetcsv($handle, 1000, $delimiter)) !== false){
+        if(!$header)
+          $header = $row;
+            else
+          $data[] = array_combine($header, $row);
+      }
+      fclose($handle);
+    }
+    return $data;
+  }
+
+  /**
+ * Method to extract info from CSV file
+ * 
+ * @param $filename
+ * @param $delimiter
+ * @return array
+ */
+function generateRandomString($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
 ?>

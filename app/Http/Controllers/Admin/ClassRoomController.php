@@ -45,8 +45,10 @@ class ClassRoomController extends Controller
      * @param $schoolId
      * @return array|json
      */
-    public function create(Request $request, $schoolId)
-    {
+    public function create(Request $request, $schoolId){
+        $request->validate([
+            'name' => 'required|string'
+        ]);
         $data = [];
         $message = __("response_message.Successful_Class_Creation");
         $statusCode = 201;
