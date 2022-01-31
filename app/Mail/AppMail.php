@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class AppMail extends Mailable
+class AppMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -21,7 +21,7 @@ class AppMail extends Mailable
      */
     public function __construct($template,$subject,$data)
     {
-        $this->template = $template ?? "emails.student.creationError";
+        $this->template = $template;
         $this->subject = $subject;
         $this->data = $data;       
     }
@@ -34,8 +34,8 @@ class AppMail extends Mailable
     public function build()
     {
         return $this->from('example@example.com')
-        ->view('emails.orders.shipped')
+        ->markdown($this->template)
         ->subject($this->subject)
-        ->with($this->data);
+        ->with(['data' => $this->data]);
     }
 }
