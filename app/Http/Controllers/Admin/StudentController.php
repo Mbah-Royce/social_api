@@ -36,4 +36,14 @@ class StudentController extends Controller
         }
         return httpResponse($data, $message, $statusCode);
     }
+
+    /**
+     * Student resource creation
+     * 
+     * @param $request
+     * @param $schoolId
+     */
+    public function formCreation(){
+        
+    }
 }
