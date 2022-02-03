@@ -17,7 +17,8 @@ class Student extends Model
         'field',
         'current_address',
         'account_status',
-        'status'
+        'status',
+        'matricule'
     ];
 
     /**

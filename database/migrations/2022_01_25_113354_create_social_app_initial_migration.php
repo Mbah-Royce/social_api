@@ -96,6 +96,7 @@ class CreateSocialAppInitialMigration extends Migration
             $table->unsignedBigInteger('school_id');
             $table->unsignedBigInteger('class_room_id');
             $table->string('level')->nullable();
+            $table->string('matricule')->unique();
             $table->string('field')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('school_id')->references('id')->on('schools');
