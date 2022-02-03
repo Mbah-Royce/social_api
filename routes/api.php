@@ -33,7 +33,14 @@ Route::group(['prefix' => 'school-admin', 'middleware' => ['auth:sanctum']], fun
     Route::PATCH('class-room/{id}',[App\Http\Controllers\Admin\ClassRoomController::class,'update']);
 
     /** Student CRUD routes*/
-    Route::POST('student-seed/{id}',[App\Http\Controllers\Admin\StudentController::class,'create']);
+    Route::POST('student-seed/{schoolId}',[App\Http\Controllers\Admin\StudentController::class,'create']);
+    Route::POST('student/{schoolId}/{classRoomID}' ,[App\Http\Controllers\Admin\StudentController::class,'formCreate']);
+    Route::PUT('student/{schoolId}/{classRoomID}' ,[App\Http\Controllers\Admin\StudentController::class,'update']);
+    Route::GET('student/{schoolId}/{classRoomID}' ,[App\Http\Controllers\Admin\StudentController::class,'index']);
+    Route::GET('student/{schoolId}/{classRoomID}/{studentId}' ,[App\Http\Controllers\Admin\StudentController::class,'show']);
+    Route::DELETE('student/{schoolId}/{classRoomID}/{studentId}' ,[App\Http\Controllers\Admin\StudentController::class,'destroy']);
+
+    /** Courses CRUD routes*/
 });
     /** MISCEO administrator Routes */
 Route::group(['prefix' => 'misceo-admin', 'middleware' => ['auth:sanctum']], function () {

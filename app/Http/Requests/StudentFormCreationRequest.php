@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StudentCreationRequest extends FormRequest
+class StudentFormCreationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,13 @@ class StudentCreationRequest extends FormRequest
     public function rules()
     {
         return [
-            'student_seeder_file' => ['required','file','mimes:csv'],
+            'matricule' => 'required|unique:students',
+            'email' => 'required|unique:users,email',
+            'level' => 'required',
+            'field' => 'nullable',
+            'current_address' => 'nullable',
+            'account_status'=> 'nullable',
+            'status'=> 'nullable',
         ];
     }
 }
