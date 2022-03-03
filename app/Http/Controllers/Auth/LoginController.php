@@ -23,17 +23,27 @@ class LoginController extends Controller
         ]);
        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
         $user = User::where('email', $request->email)->first();
-        Auth::login($user);
-        $token = $user->createToken('auth_token')->plainTextToken;
-        $message = 'User login successfully';
-        $statusCode = 200;
-        $data = [
-            'user'=> $user,
-            'token' => $token
-        ];
+        if($user->pwd_changed){
+            Auth::login($user);
+            $token = $user->createToken('auth_token')->plainTextToken;
+            $message = 'User login successfully';
+            $statusCode = 200;
+            $data = [
+                'user'=> $user,
+                'token' => $token,
+                'student_accounts' => $user->studentAccounts
+            ];
+        }else{
+            $statusCode = 200;
+            $message = "Successful Please change password";
+            $data = [
+                'user'=> $user,
+            ];
+        }
+        
        } else{
         $statusCode = 403;
-        $message = "password work";
+        $message = "Passowrd or Email incorrect";
         $data = [];
        }
        return httpResponse($data, $message, $statusCode);

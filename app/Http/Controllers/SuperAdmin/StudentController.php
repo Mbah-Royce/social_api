@@ -44,6 +44,7 @@ class StudentController extends Controller
                             $user->studentAccounts()->create([
                                 'school_id' => $school->id,
                                 'class_room_id' => $classRoom->id,
+                                'matricule' => generateRandomString(),
                                 'level' => '2',
                                 'field' => 'SE',
                             ]);
