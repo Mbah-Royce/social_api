@@ -41,6 +41,12 @@ Route::group(['prefix' => 'school-admin', 'middleware' => ['auth:sanctum']], fun
     Route::DELETE('student/{schoolId}/{classRoomID}/{studentId}' ,[App\Http\Controllers\Admin\StudentController::class,'destroy']);
 
     /** Courses CRUD routes*/
+    Route::POST('course/{schoolId}/{classRoomID}',[App\Http\Controllers\Admin\CourseController::class,'create']);
+    Route::PUT('course/{schoolId}/{classRoomID}',[App\Http\Controllers\Admin\CourseController::class,'update']);
+    Route::GET('course/{schoolId}/{classRoomID}',[App\Http\Controllers\Admin\CourseController::class,'index']);
+    Route::GET('course/{schoolId}/{classRoomID}/{courseId}',[App\Http\Controllers\Admin\CourseController::class,'show']);
+    Route::DELETE('course/{schoolId}/{classRoomID}/{courseId}',[App\Http\Controllers\Admin\CourseController::class,'destroy']);
+
 });
     /** MISCEO administrator Routes */
 Route::group(['prefix' => 'misceo-admin', 'middleware' => ['auth:sanctum']], function () {

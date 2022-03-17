@@ -36,19 +36,20 @@ class StudentController extends Controller
      * 
      * @param $request
      * @param $schoolId
+     * @param $classRoomId
      */
-    public function create(StudentCreationRequest $request, $shcoolId, $classRoomId){
+    public function create(StudentCreationRequest $request, $shcoolId){
         try {
             $data = [];
             $message = __("Uploaded successfully");
             $statusCode = 200;
             $school = School::findorfail($shcoolId);
-            $classRoom = $school->classRooms()->where('id',$classRoomId)->first();
+            $classRoom = $school->classRooms()->where('id',$request->class_id)->first();
             $path = fileUpload("/public/seed", $request->student_seeder_file);
             if($classRoom){
                 $data = $school->studSeederFile()->create([
                     'path' => $path,
-                    'class_room_id' => $classRoomId,
+                    'class_room_id' => $request->class_id
                 ]);
             }
         } catch (ModelNotFoundException $exception) {
@@ -68,6 +69,7 @@ class StudentController extends Controller
      * 
      * @param $request
      * @param $schoolId
+     * @param $classRoomId
      */
     public function formCreate(StudentFormCreationRequest $request, $schoolId, $classRoomId){
         $data = [];
@@ -106,6 +108,8 @@ class StudentController extends Controller
      * 
      * @param $request
      * @param $schoolId
+     * @param $classRoomId
+     * @param $studentId
      */
     public function show($schoolId, $classRoomId, $studentId){
         $data = [];
@@ -126,6 +130,8 @@ class StudentController extends Controller
      * 
      * @param $request
      * @param $schoolId
+     * @param $classRoomId
+     * @param $studentId
      */
     public function update(StudentUpateRequest $request, $schoolId, $classRoomId, $studentId){
         $request->merge(['student_id']);
@@ -150,6 +156,8 @@ class StudentController extends Controller
      * 
      * @param $request
      * @param $schoolId
+     * @param $classRoomId
+     * @param $studentId
      */
     public function destroy($schoolId, $classRoomId, $studentId){
         $data = [];
