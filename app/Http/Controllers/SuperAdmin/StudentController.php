@@ -41,7 +41,8 @@ class StudentController extends Controller
                                 'last_name' => $record['last_name'],
                                 'first_name' => $record['first_name'],
                                 'gender' => $record['gender'],
-                                'password' => $randomString
+                                'password' => 'password',
+                                'pwd_changed' => true
                             ]);
                             $user->studentAccounts()->create([
                                 'school_id' => $school->id,
@@ -51,7 +52,7 @@ class StudentController extends Controller
                                 'field' => 'SE',
                             ]);
                             $content =  $randomString;
-                            emailNotification($record['email'], 'emails.student.studentPassword', 'Account Creation', $content);
+                            // emailNotification($record['email'], 'emails.student.studentPassword', 'Account Creation', $content);
                         } else {
                             $unsuccessfulStudents[$key] = [
                                 'email' => $record['email'],
@@ -64,7 +65,7 @@ class StudentController extends Controller
                     }
                     if ($unsuccessfulStudents) {
                         $data = $unsuccessfulStudents;
-                        emailNotification($school->email, 'emails.student.creationError', 'Account Creation', $unsuccessfulStudents);
+                        // emailNotification($school->email, 'emails.student.creationError', 'Account Creation', $unsuccessfulStudents);
                     }
                 } else {
                     $message = __("response_message.File_Not_Found");
