@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 /** Auth Routes */
-
+Route::POST('user/register',[App\Http\Controllers\Auth\LoginController::class,'register']);
 Route::group(['prefix' => 'user'], function(){
     Route::POST('login', [App\Http\Controllers\Auth\LoginController::class,'login']);
 });

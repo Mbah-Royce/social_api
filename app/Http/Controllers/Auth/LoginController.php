@@ -48,4 +48,24 @@ class LoginController extends Controller
        }
        return httpResponse($data, $message, $statusCode);
     }
+
+    public function register(Request $request){
+        $user = User::create([
+            'email' => $request->email,
+            'last_name' => $request->last_name,
+            'first_name' => $request->first_name,
+            'gender' => $request->gender,
+            'password' => 'password',
+            'pwd_changed' => true,
+        ]);
+        $token = $user->createToken('auth_token')->plainTextToken;
+        $message = 'User login successfully';
+        $statusCode = 200;
+        $data = [
+            'user'=> $user,
+            'token' => $token,
+            'student_accounts' => $user->studentAccounts
+        ];
+        return httpResponse($data, $message, $statusCode);
+    }
 }
