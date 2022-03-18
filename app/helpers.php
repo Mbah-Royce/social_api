@@ -71,8 +71,9 @@ function emailNotification($reciever,$template,$subject,$data,$queue = 'studentC
  * @return array
  */
 function importCSV($filename, $delimiter = ','){
-    if(!file_exists(public_path($filename)) || !is_readable(public_path($filename)))
+    if(!file_exists(public_path($filename)) || !is_readable(public_path($filename))){
     return false;
+    }
     $header = null;
     $data = array();
     if (($handle = fopen(public_path($filename), 'r')) !== false){
