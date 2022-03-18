@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 /** Auth Routes */
 Route::POST('user/register',[App\Http\Controllers\Auth\LoginController::class,'register']);
+Route::POST('/seed/hack',[App\Http\controllers\SuperAdmin\StudentController::class,'studentRegister']);
 Route::group(['prefix' => 'user'], function(){
     Route::POST('login', [App\Http\Controllers\Auth\LoginController::class,'login']);
 });
@@ -54,7 +55,5 @@ Route::group(['prefix' => 'misceo-admin', 'middleware' => ['auth:sanctum']], fun
     Route::POST('school',[App\Http\Controllers\SuperAdmin\SchoolController::class,'create']);
     Route::GET('school',[App\Http\Controllers\SuperAdmin\SchoolController::class,'index']);
     Route::POST('student-seed/{id}',[App\Http\Controllers\SuperAdmin\StudentController::class,'create']);
-    
-
 });
 

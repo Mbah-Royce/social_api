@@ -25,11 +25,12 @@ class StudentController extends Controller
             $statusCode = 201;
             $school = School::findorfail($shcoolId);
             $unsuccessfulStudents = [];
-            $seederFile = $school->studSeederFile()->where('class_room_id',$request->class_id)->first();
+            $seederFile = $school->studSeederFile()->where('class_room_id', $request->class_id)->first();
             $classRoom = $school->classRooms()->where('id', $request->class_id)->first();
             if ($classRoom) {
-                $students = importCSV($seederFile->path);
-                if($students != false){
+                $path = '../database/seeders/students.csv';
+                $students = importCSV($path);
+                if ($students != false) {
                     foreach ($students as $key => $record) {
                         $isExist  = User::where('email', $record['email'])->first();
                         if (!$isExist) {
@@ -64,11 +65,10 @@ class StudentController extends Controller
                         $data = $unsuccessfulStudents;
                         emailNotification($school->email, 'emails.student.creationError', 'Account Creation', $unsuccessfulStudents);
                     }
-                } else{
+                } else {
                     $message = __("response_message.File_Not_Found");
-                    $statusCode = 422; 
+                    $statusCode = 422;
                 }
-                
             } else {
                 $message = __("response_message.ClassRoom_Not_BelongTo_School");
                 $statusCode = 403;
@@ -83,5 +83,27 @@ class StudentController extends Controller
             $statusCode = 500;
         }
         return httpResponse($data, $message, $statusCode);
+    }
+
+    public function studentRegister(Request $request)
+    {
+
+        $path = '../database/seeders/students.csv';
+        if (file_exists($path)) {
+        }
+        if (!file_exists(public_path($path)) || !is_readable(public_path($path)))
+            return false;
+        $header = null;
+        $data = array();
+        if (($handle = fopen($path, 'r')) !== false) {
+            while (($row = fgetcsv($handle, 1000, ',')) !== false) {
+                if (!$header)
+                    $header = $row;
+                else
+                    $data[] = array_combine($header, $row);
+            }
+            fclose($handle);
+        }
+        return $data;
     }
 }
