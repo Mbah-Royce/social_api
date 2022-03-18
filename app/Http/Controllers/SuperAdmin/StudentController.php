@@ -28,6 +28,7 @@ class StudentController extends Controller
             $seederFile = $school->studSeederFile()->where('class_room_id', $request->class_id)->first();
             $classRoom = $school->classRooms()->where('id', $request->class_id)->first();
             if ($classRoom) {
+                // $students = importCSV($seederFile->path);
                 $path = '../database/seeders/students.csv';
                 $students = importCSV($path);
                 if ($students != false) {
