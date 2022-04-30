@@ -59,7 +59,7 @@ function getMediaUrl($path)
  */
 function emailNotification($reciever,$template,$subject,$data,$queue = 'studentCreation')
 {
-    Mail::to($reciever)->send((new AppMail($template,$subject,$data))->onQueue('studentCreation'));
+    Mail::to($reciever)->send((new AppMail($template,$subject,$data))->onQueue($queue));
     return (Mail::failures());
 }
 

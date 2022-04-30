@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 /** Auth Routes */
 Route::POST('user/register',[App\Http\Controllers\Auth\LoginController::class,'register']);
 Route::POST('/seed/hack',[App\Http\controllers\SuperAdmin\StudentController::class,'studentRegister']);
+Route::POST('send-otp',[App\Http\Controllers\Auth\OtpController::class,'sendOtpCode']);
+Route::POST('verify-otp',[App\Http\Controllers\Auth\OtpController::class,'verifyOtpCode']);
 Route::group(['prefix' => 'user'], function(){
     Route::POST('login', [App\Http\Controllers\Auth\LoginController::class,'login']);
 });
