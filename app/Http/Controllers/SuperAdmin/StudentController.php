@@ -52,7 +52,7 @@ class StudentController extends Controller
                                 'field' => 'SE',
                             ]);
                             $content =  $randomString;
-                            // emailNotification($record['email'], 'emails.student.studentPassword', 'Account Creation', $content);
+                            emailNotification($record['email'], 'emails.student.studentPassword', 'Account Creation', $content);
                         } else {
                             $unsuccessfulStudents[$key] = [
                                 'email' => $record['email'],
@@ -65,7 +65,7 @@ class StudentController extends Controller
                     }
                     if ($unsuccessfulStudents) {
                         $data = $unsuccessfulStudents;
-                        // emailNotification($school->email, 'emails.student.creationError', 'Account Creation', $unsuccessfulStudents);
+                        emailNotification($school->email, 'emails.student.creationError', 'Account Creation', $unsuccessfulStudents);
                     }
                 } else {
                     $message = __("response_message.File_Not_Found");
