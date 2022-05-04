@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -16,13 +17,13 @@ class OtpController extends Controller
      */
     public function sendOtpCode(Request $request){
         $request->validate([
-            'email' => 'required|string|email'
+            'email' => 'required|string|email|exists:users,email'
         ]);
-        $code = generateRandomString();
+        $code = generateRandomNum(5);
         $template = 'emails.changeDefaultPassword';
         $subject = 'Change Default Password';
         $queue = 'otpcode';
-        $seconds = 3000;
+        $seconds = 6000;
         if (Cache::has($request->email)) {
             Cache::forget($request->email);
         }
@@ -52,12 +53,19 @@ class OtpController extends Controller
         if (Cache::has($email)) {
             $storedOtp = Cache::get($email);
             if ($code == $storedOtp){
+                $user = User::where('email',$email)->first();
+                $token = $user->createToken('pass_reset_token', ['server:reset_password'])->plainTextToken;
+                $data = [
+                    'user'=> $user,
+                    'token' => $token,
+                ];
                 $message = "Successfull";
+                Cache::forget($email);
             }else{
                 $statusCode = 422;
                 $message = "Otp Wrong";
             }
-            Cache::forget($email);
+            
         }else{
             $statusCode = 422;
             $message = "Invalid Request";

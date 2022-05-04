@@ -89,10 +89,9 @@ function importCSV($filename, $delimiter = ','){
   }
 
   /**
- * Method to extract info from CSV file
+ * Method to generate random string
  * 
- * @param $filename
- * @param $delimiter
+ * @param $length
  * @return array
  */
 function generateRandomString($length = 10) {
@@ -103,5 +102,21 @@ function generateRandomString($length = 10) {
         $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
     return $randomString;
+}
+
+/** 
+* Method to generate random numbers
+* 
+* @param $length
+* @return array
+*/
+function generateRandomNum($length = 5) {
+   $characters = '0123456789';
+   $charactersLength = strlen($characters);
+   $randomString = '';
+   for ($i = 0; $i < $length; $i++) {
+       $randomString .= $characters[rand(0, $charactersLength - 1)];
+   }
+   return $randomString;
 }
 ?>

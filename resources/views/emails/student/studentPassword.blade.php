@@ -1,8 +1,10 @@
 @component('mail::message')
-# Introduction
+# Welcome to MISCEO
 
-The body of your message.
-{{$data}}
+This is your login password. This password was generated automatically.
+Upon first login you would be promted to change it. Thanks for understanding.
+
+passcode: {{$data}}
 @component('mail::button', ['url' => ''])
 Button Text
 @endcomponent

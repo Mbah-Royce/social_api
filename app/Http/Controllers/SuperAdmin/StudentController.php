@@ -41,8 +41,8 @@ class StudentController extends Controller
                                 'last_name' => $record['last_name'],
                                 'first_name' => $record['first_name'],
                                 'gender' => $record['gender'],
-                                'password' => 'password',
-                                'pwd_changed' => true
+                                'password' => $randomString,
+                                'pwd_changed' => false
                             ]);
                             $user->studentAccounts()->create([
                                 'school_id' => $school->id,

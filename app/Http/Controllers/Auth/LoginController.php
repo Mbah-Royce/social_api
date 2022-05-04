@@ -34,7 +34,7 @@ class LoginController extends Controller
                 'student_accounts' => $user->studentAccounts
             ];
         }else{
-            $statusCode = 200;
+            $statusCode = 403;
             $message = "Successful Please change password";
             $data = [
                 'user'=> $user,
@@ -42,7 +42,7 @@ class LoginController extends Controller
         }
         
        } else{
-        $statusCode = 403;
+        $statusCode = 422;
         $message = "Passowrd or Email incorrect";
         $data = [];
        }
